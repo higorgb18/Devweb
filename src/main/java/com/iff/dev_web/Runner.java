@@ -2,7 +2,9 @@ package com.iff.dev_web;
 
 import com.iff.dev_web.entities.Cliente;
 import com.iff.dev_web.entities.Funcionario;
+import com.iff.dev_web.entities.LojaFilial;
 import com.iff.dev_web.entities.Usuario;
+import com.iff.dev_web.repository.LojaFilialRepository;
 import com.iff.dev_web.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,9 +18,15 @@ public class Runner implements CommandLineRunner {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    LojaFilialRepository lojaFilialRepository;
 
     @Override
     public void run(String... args) throws Exception {
+
+        LojaFilial lojaFilial1 = new LojaFilial(1L, "Loja Central", "Rua Principal, 123", "22991234567");
+        lojaFilialRepository.save(lojaFilial1);
+
         Funcionario funcionario1 = new Funcionario(2L,
                 "Higor",
                 "higor23@gmail.com.br",
@@ -28,7 +36,7 @@ public class Runner implements CommandLineRunner {
                 LocalDate.parse("2000-10-26"),
                 new BigDecimal(3500),
                 "Atendente",
-                1L);
+                lojaFilial1);
         usuarioRepository.save(funcionario1);
 
         Cliente cliente1 = new Cliente(1L,
@@ -53,7 +61,7 @@ public class Runner implements CommandLineRunner {
                 " | Data de nascimento: " + funcionario1.getDataNascimento() +
                 " | Salário: " + funcionario1.getSalario() +
                 " | Cargo: " + funcionario1.getCargo() +
-                " | Loja filial: " + funcionario1.getCdLojaFilial());
+                " | Loja filial: " + funcionario1.getLojaFilial().getNome());
 
         System.out.println("ID: " + cliente1.getCdUsuario() +
                 " | Usuário: " + cliente1.getUsuario() +

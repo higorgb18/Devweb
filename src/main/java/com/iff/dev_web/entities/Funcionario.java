@@ -14,17 +14,19 @@ public class Funcionario extends Usuario implements Serializable {
 
     private BigDecimal salario;
     private String cargo;
-    private Long cdLojaFilial;
+    @ManyToOne
+    @JoinColumn(name = "cdLojaFilial")
+    private LojaFilial lojaFilial;
 
     public Funcionario() {
 
     }
 
-    public Funcionario(Long cdUsuario, String usuario, String email, String nuDocumento, String nuTelefone, String endereco, LocalDate dataNascimento, BigDecimal salario, String cargo, Long cdLojaFilial) {
+    public Funcionario(Long cdUsuario, String usuario, String email, String nuDocumento, String nuTelefone, String endereco, LocalDate dataNascimento, BigDecimal salario, String cargo, LojaFilial lojaFilial) {
         super(cdUsuario, usuario, email, nuDocumento, nuTelefone, endereco, dataNascimento);
         this.salario = salario;
         this.cargo = cargo;
-        this.cdLojaFilial = cdLojaFilial;
+        this.lojaFilial = lojaFilial;
     }
 
     public BigDecimal getSalario() {
@@ -43,12 +45,12 @@ public class Funcionario extends Usuario implements Serializable {
         this.cargo = cargo;
     }
 
-    public Long getCdLojaFilial() {
-        return cdLojaFilial;
+    public LojaFilial getLojaFilial() {
+        return lojaFilial;
     }
 
-    public void setCdLojaFilial(Long cdLojaFilial) {
-        this.cdLojaFilial = cdLojaFilial;
+    public void setLojaFilial(LojaFilial lojaFilial) {
+        this.lojaFilial = lojaFilial;
     }
 }
 
