@@ -3,6 +3,7 @@ package com.iff.dev_web.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -22,6 +23,9 @@ public class LojaFilial {
     private String endereco;
     @Column(nullable = false)
     private String nuTelefone;
+
+    @OneToMany(mappedBy = "lojaFilial", cascade = CascadeType.ALL)
+    private List<Funcionario> funcionarios;
 
     public LojaFilial() {}
 
@@ -62,5 +66,13 @@ public class LojaFilial {
 
     public void setNuTelefone(String nuTelefone) {
         this.nuTelefone = nuTelefone;
+    }
+
+    public List<Funcionario> getFuncionarios() {
+        return funcionarios;
+    }
+
+    public void setFuncionarios(List<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
     }
 }
