@@ -3,6 +3,7 @@ package com.iff.dev_web.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -11,12 +12,14 @@ import jakarta.persistence.*;
 public class Funcionario extends Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
-    private BigDecimal salario;
-    private String cargo;
     @ManyToOne
     @JoinColumn(name = "cdLojaFilial")
     private LojaFilial lojaFilial;
+    @OneToMany(mappedBy = "funcionario")
+    private List<Financiamento> financiamentos;
+    private BigDecimal salario;
+    private String cargo;
+
 
     public Funcionario() {
 

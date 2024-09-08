@@ -14,8 +14,17 @@ public class Financiamento implements Serializable {
     @Id
     private String nuContrato;
 
-    @Column(nullable = false)
-    private Long cdCliente;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cdVeiculo", referencedColumnName = "cdVeiculo")
+    private Veiculo veiculo;
+
+    @ManyToOne
+    @JoinColumn(name = "cdCliente", referencedColumnName = "cdUsuario")
+    private Cliente cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "cdFuncionario", referencedColumnName = "cdUsuario")
+    private Funcionario funcionario;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -23,43 +32,32 @@ public class Financiamento implements Serializable {
 
     @Column(nullable = false)
     private BigDecimal valorFinanciamento;
-
     @Column(nullable = false)
     private BigDecimal taxaJuros;
-
     @Column(nullable = false)
     private Integer qtParcelas;
-
     @Column(nullable = false)
     private LocalDateTime dtInicioFinanciamento;
-
     @Column(nullable = false)
     private LocalDateTime dtFimFinanciamento;
-
-    @Column(nullable = false)
-    private Long cdVeiculo;
-
-    @Column(nullable = false)
     private LocalDateTime dtAtualizacao;
 
-    @Column(nullable = false)
-    private Long cdFuncionario;
 
     public Financiamento() {
     }
 
-    public Financiamento(String nuContrato, Long cdCliente, CdStatusEnum cdStatus, BigDecimal valorFinanciamento, BigDecimal taxaJuros, Integer qtParcelas, LocalDateTime dtInicioFinanciamento, LocalDateTime dtFimFinanciamento, Long cdVeiculo, LocalDateTime dtAtualizacao, Long cdFuncionario) {
+    public Financiamento(String nuContrato, Veiculo veiculo, Cliente cliente, Funcionario funcionario, CdStatusEnum cdStatus, BigDecimal valorFinanciamento, BigDecimal taxaJuros, Integer qtParcelas, LocalDateTime dtInicioFinanciamento, LocalDateTime dtFimFinanciamento, LocalDateTime dtAtualizacao) {
         this.nuContrato = nuContrato;
-        this.cdCliente = cdCliente;
+        this.veiculo = veiculo;
+        this.cliente = cliente;
+        this.funcionario = funcionario;
         this.cdStatus = cdStatus;
         this.valorFinanciamento = valorFinanciamento;
         this.taxaJuros = taxaJuros;
         this.qtParcelas = qtParcelas;
         this.dtInicioFinanciamento = dtInicioFinanciamento;
         this.dtFimFinanciamento = dtFimFinanciamento;
-        this.cdVeiculo = cdVeiculo;
         this.dtAtualizacao = dtAtualizacao;
-        this.cdFuncionario = cdFuncionario;
     }
 
     public String getNuContrato() {
@@ -70,12 +68,28 @@ public class Financiamento implements Serializable {
         this.nuContrato = nuContrato;
     }
 
-    public Long getCdCliente() {
-        return cdCliente;
+    public Veiculo getVeiculo() {
+        return veiculo;
     }
 
-    public void setCdCliente(Long cdCliente) {
-        this.cdCliente = cdCliente;
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
     }
 
     public CdStatusEnum getCdStatus() {
@@ -126,28 +140,12 @@ public class Financiamento implements Serializable {
         this.dtFimFinanciamento = dtFimFinanciamento;
     }
 
-    public Long getCdVeiculo() {
-        return cdVeiculo;
-    }
-
-    public void setCdVeiculo(Long cdVeiculo) {
-        this.cdVeiculo = cdVeiculo;
-    }
-
     public LocalDateTime getDtAtualizacao() {
         return dtAtualizacao;
     }
 
     public void setDtAtualizacao(LocalDateTime dtAtualizacao) {
         this.dtAtualizacao = dtAtualizacao;
-    }
-
-    public Long getCdFuncionario() {
-        return cdFuncionario;
-    }
-
-    public void setCdFuncionario(Long cdFuncionario) {
-        this.cdFuncionario = cdFuncionario;
     }
 }
 

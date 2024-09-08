@@ -3,6 +3,7 @@ package com.iff.dev_web.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -12,7 +13,8 @@ public class Cliente extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
+    @OneToMany(mappedBy = "cliente")
+    private List<Financiamento> financiamentos;
     private Integer scoreCredito;
     private BigDecimal limiteCreditoFinanciamento;
     private BigDecimal renda;
