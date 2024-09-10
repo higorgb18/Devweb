@@ -1,11 +1,8 @@
 package com.iff.dev_web.entities;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "TbLojaFilial")
@@ -17,6 +14,9 @@ public class LojaFilial {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long cdLojaFilial;
 
+    @OneToMany(mappedBy = "lojaFilial", cascade = CascadeType.ALL)
+    private List<Funcionario> funcionarios;
+
     @Column(nullable = false)
     private String nome;
     @Column(nullable = false)
@@ -24,8 +24,6 @@ public class LojaFilial {
     @Column(nullable = false)
     private String nuTelefone;
 
-    @OneToMany(mappedBy = "lojaFilial", cascade = CascadeType.ALL)
-    private List<Funcionario> funcionarios;
 
     public LojaFilial() {}
 
