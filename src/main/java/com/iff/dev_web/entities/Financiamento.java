@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "TbFinanciamento")
@@ -12,6 +13,7 @@ public class Financiamento implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @NotNull
     private String nuContrato;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -27,19 +29,25 @@ public class Financiamento implements Serializable {
     private Funcionario funcionario;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     @Column(nullable = false)
     private CdStatusEnum cdStatus;
 
     @Column(nullable = false)
+    @DecimalMin(value = "0.0", message = "O valor do financiamento deve ser maior que 0")
     private BigDecimal valorFinanciamento;
     @Column(nullable = false)
+    @DecimalMin(value = "0.0", message = "A taxa de juros deve ser maior que 0")
     private BigDecimal taxaJuros;
+    @Min(value = 0, message = "A quantidade de parcelas deve ser maior que 0")
     @Column(nullable = false)
     private Integer qtParcelas;
     @Column(nullable = false)
     private LocalDateTime dtInicioFinanciamento;
+    @Future
     @Column(nullable = false)
     private LocalDateTime dtFimFinanciamento;
+    @PastOrPresent
     private LocalDateTime dtAtualizacao;
 
 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "TbVeiculo")
@@ -18,12 +19,15 @@ public class Veiculo implements Serializable{
     @Column(nullable = false)
     private Integer cdTipoVeiculo;
 
+    @Pattern(regexp = "[A-Z]{3}[0-9][0-9A-Z][0-9]{2}", message = "A placa deve estar no padrão ABC1234 ou Mercosul")
     @Column(nullable = false)
     private String placa;
 
+    @Pattern(regexp = "^[A-Za-z0-9]{3,3}[A-Za-z0-9]{6,6}[A-Za-z0-9]{2,2}[A-Za-z0-9]{6,6}$", message = "Chassi inválido")
     @Column(nullable = false)
     private String chassi;
 
+    @Positive
     @Column(nullable = false)
     private BigDecimal valor;
 
@@ -37,7 +41,7 @@ public class Veiculo implements Serializable{
     private Integer anoModelo;
 
     @Column(nullable = false)
-    private String tipoCombustivel;
+    private CdTipoCombustivelEnum tipoCombustivel;
 
     @Column(nullable = false)
     private Long cdTabelaFipe;
@@ -49,7 +53,7 @@ public class Veiculo implements Serializable{
 
     }
 
-    public Veiculo(Long cdVeiculo, Integer cdTipoVeiculo, String placa, String chassi, BigDecimal valor, String marca, String modelo, Integer anoModelo, String tipoCombustivel, Long cdTabelaFipe, Integer quilometragem) {
+    public Veiculo(Long cdVeiculo, Integer cdTipoVeiculo, String placa, String chassi, BigDecimal valor, String marca, String modelo, Integer anoModelo, CdTipoCombustivelEnum tipoCombustivel, Long cdTabelaFipe, Integer quilometragem) {
         this.cdVeiculo = cdVeiculo;
         this.cdTipoVeiculo = cdTipoVeiculo;
         this.placa = placa;
@@ -127,11 +131,11 @@ public class Veiculo implements Serializable{
         this.anoModelo = anoModelo;
     }
 
-    public String getTipoCombustivel() {
+    public CdTipoCombustivelEnum getTipoCombustivel() {
         return tipoCombustivel;
     }
 
-    public void setTipoCombustivel(String tipoCombustivel) {
+    public void setTipoCombustivel(CdTipoCombustivelEnum tipoCombustivel) {
         this.tipoCombustivel = tipoCombustivel;
     }
 
