@@ -1,6 +1,9 @@
 package com.iff.dev_web.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -17,10 +20,14 @@ public class LojaFilial {
     @OneToMany(mappedBy = "lojaFilial", cascade = CascadeType.ALL)
     private List<Funcionario> funcionarios;
 
+    @NotBlank
     @Column(nullable = false)
     private String nome;
+    @NotBlank
     @Column(nullable = false)
     private String endereco;
+    @NotBlank
+    @Pattern(regexp = "\\(\\d{2}\\) \\d{4,5}-\\d{4}", message = "O número de telefone deve seguir o formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX")
     @Column(nullable = false)
     private String nuTelefone;
 

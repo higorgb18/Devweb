@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -15,17 +16,23 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long cdUsuario;
+    @NotBlank
     @Column(name = "nome", nullable = false)
     private String usuario;
+    @NotBlank
+    @Email
     @Column(unique = true)
     private String email;
+    @Size(min = 11, max = 14)
     @Column(unique = true, nullable = false)
     private String nuDocumento;
-    @Column
+    @Pattern(regexp = "\\(\\d{2}\\) \\d{4,5}-\\d{4}", message = "O número de telefone deve seguir o formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX")
+    @Column(nullable = false)
     private String nuTelefone;
-    @Column
+    @Column(nullable = false)
     private String endereco;
-    @Column
+    @Past
+    @Column(nullable = false)
     private LocalDate dataNascimento;
 
     public Usuario() {

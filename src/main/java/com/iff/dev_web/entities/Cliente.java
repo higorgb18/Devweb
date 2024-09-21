@@ -6,6 +6,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 @Entity
 @DiscriminatorValue("1")
@@ -15,8 +18,12 @@ public class Cliente extends Usuario implements Serializable {
 
     @OneToMany(mappedBy = "cliente")
     private List<Financiamento> financiamentos;
+    @Min(value = 0, message = "O score de crédito deve ser igual ou maior que 0")
+    @Max(value = 1000, message = "O score de crédito deve ser menor ou igual a 1000")
     private Integer scoreCredito;
+    @DecimalMin(value = "0.0", message = "O limite de crédito deve ser maior que zero")
     private BigDecimal limiteCreditoFinanciamento;
+    @DecimalMin(value = "0.0", message = "A renda deve ser maior que zero")
     private BigDecimal renda;
 
     public Cliente() {}

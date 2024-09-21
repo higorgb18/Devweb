@@ -39,15 +39,15 @@ public class Runner implements CommandLineRunner {
                 null,
                 "Loja Central",
                 "Rua Principal, 123",
-                "22991234567");
+                "(22) 99123-4567");
         lojaFilialRepository.save(lojaFilial1);
 
         Funcionario funcionario1 = new Funcionario(
                 null,
-                "Higor",
+                "Higor Brandão",
                 "higor23@gmail.com.br",
                 "12345678910",
-                "22991472589",
+                "(22) 99147-2589",
                 "New Brasília",
                 LocalDate.parse("2000-10-26"),
                 new BigDecimal(3500),
@@ -60,7 +60,7 @@ public class Runner implements CommandLineRunner {
                 "Ana Julia",
                 "juliaAna@gmail.com.br",
                 "10987654321",
-                "22994576329",
+                "(62) 99457-6329",
                 "Lessence P",
                 LocalDate.parse("2001-07-04"),
                 999,
@@ -71,13 +71,13 @@ public class Runner implements CommandLineRunner {
         Veiculo veiculo1 = new Veiculo(
                 null,
                 1,
-                "ABC-1234",
+                "ABC1234",
                 "1HGCM82633A123456",
                 new BigDecimal(30000),
                 "Honda",
                 "Civic",
                 2020,
-                "Gasolina",
+                CdTipoCombustivelEnum.Gasolina,
                 1023L,
                 50000);
         veiculoRepository.save(veiculo1);
