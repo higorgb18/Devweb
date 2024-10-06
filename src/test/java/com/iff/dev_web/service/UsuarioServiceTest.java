@@ -1,8 +1,7 @@
-package com.iff.dev_web.Service;
+package com.iff.dev_web.service;
 
 import com.iff.dev_web.entities.Cliente;
 import com.iff.dev_web.entities.Funcionario;
-import com.iff.dev_web.entities.Usuario;
 import com.iff.dev_web.repository.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
