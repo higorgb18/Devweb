@@ -1,16 +1,17 @@
 package com.iff.dev_web.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-
 @Entity
 @Table(name = "TbFinanciamento")
-public class Financiamento implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Financiamento extends RepresentationModel<Financiamento> implements Serializable {
 
     @Id
     @NotNull
@@ -18,14 +19,17 @@ public class Financiamento implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cdVeiculo", referencedColumnName = "cdVeiculo")
+    @JsonIgnore
     private Veiculo veiculo;
 
     @ManyToOne
     @JoinColumn(name = "cdCliente", referencedColumnName = "cdUsuario")
+    @JsonIgnore
     private Cliente cliente;
 
     @ManyToOne
     @JoinColumn(name = "cdFuncionario", referencedColumnName = "cdUsuario")
+    @JsonIgnore
     private Funcionario funcionario;
 
     @Enumerated(EnumType.STRING)
@@ -34,12 +38,9 @@ public class Financiamento implements Serializable {
     private CdStatusEnum cdStatus;
 
     @Column(nullable = false)
-    @DecimalMin(value = "0.0", message = "O valor do financiamento deve ser maior que 0")
     private BigDecimal valorFinanciamento;
     @Column(nullable = false)
-    @DecimalMin(value = "0.0", message = "A taxa de juros deve ser maior que 0")
     private BigDecimal taxaJuros;
-    @Min(value = 0, message = "A quantidade de parcelas deve ser maior que 0")
     @Column(nullable = false)
     private Integer qtParcelas;
     @Column(nullable = false)

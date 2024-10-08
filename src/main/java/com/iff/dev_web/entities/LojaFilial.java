@@ -1,23 +1,22 @@
 package com.iff.dev_web.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.List;
 
 @Entity
 @Table(name = "TbLojaFilial")
-public class LojaFilial {
-
-    private static final long serialVersionUID = 1L;
+public class LojaFilial extends RepresentationModel<Financiamento> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long cdLojaFilial;
 
     @OneToMany(mappedBy = "lojaFilial", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Funcionario> funcionarios;
 
     @NotBlank
@@ -27,7 +26,6 @@ public class LojaFilial {
     @Column(nullable = false)
     private String endereco;
     @NotBlank
-    @Pattern(regexp = "\\(\\d{2}\\) \\d{4,5}-\\d{4}", message = "O número de telefone deve seguir o formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX")
     @Column(nullable = false)
     private String nuTelefone;
 

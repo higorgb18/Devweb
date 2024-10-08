@@ -7,9 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FinanciamentoRepository extends JpaRepository<Financiamento, String> {
 
     @Query("SELECT f FROM Financiamento f WHERE f.cdStatus = :status")
     List<Financiamento> buscarFinanciamentoPorStatus(@Param("status") CdStatusEnum status);
+
+    Optional<Financiamento> findByNuContrato(String nuContrato);
 }

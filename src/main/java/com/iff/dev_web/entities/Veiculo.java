@@ -5,12 +5,11 @@ import java.math.BigDecimal;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.hateoas.RepresentationModel;
 
 @Entity
 @Table(name = "TbVeiculo")
-public class Veiculo implements Serializable{
-
-    private static final long serialVersionUID = 1L;
+public class Veiculo extends RepresentationModel<Veiculo> implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,11 +18,9 @@ public class Veiculo implements Serializable{
     @Column(nullable = false)
     private Integer cdTipoVeiculo;
 
-    @Pattern(regexp = "[A-Z]{3}[0-9][0-9A-Z][0-9]{2}", message = "A placa deve estar no padrão ABC1234 ou Mercosul")
     @Column(nullable = false)
     private String placa;
 
-    @Pattern(regexp = "^[A-Za-z0-9]{3,3}[A-Za-z0-9]{6,6}[A-Za-z0-9]{2,2}[A-Za-z0-9]{6,6}$", message = "Chassi inválido")
     @Column(nullable = false)
     private String chassi;
 

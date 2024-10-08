@@ -1,4 +1,4 @@
-package com.iff.dev_web.Service;
+package com.iff.dev_web.service;
 
 import com.iff.dev_web.entities.Funcionario;
 import com.iff.dev_web.repository.FuncionarioRepository;

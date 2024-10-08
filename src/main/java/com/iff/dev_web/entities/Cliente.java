@@ -1,29 +1,25 @@
 package com.iff.dev_web.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-
 @Entity
 @DiscriminatorValue("1")
 public class Cliente extends Usuario implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
     private List<Financiamento> financiamentos;
-    @Min(value = 0, message = "O score de crédito deve ser igual ou maior que 0")
-    @Max(value = 1000, message = "O score de crédito deve ser menor ou igual a 1000")
+
     private Integer scoreCredito;
-    @DecimalMin(value = "0.0", message = "O limite de crédito deve ser maior que zero")
     private BigDecimal limiteCreditoFinanciamento;
-    @DecimalMin(value = "0.0", message = "A renda deve ser maior que zero")
     private BigDecimal renda;
 
     public Cliente() {}

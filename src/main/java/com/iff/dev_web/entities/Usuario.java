@@ -5,14 +5,13 @@ import java.time.LocalDate;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.hateoas.RepresentationModel;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "cdTipoUsuario", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "TbUsuarios")
-public class Usuario implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class Usuario extends RepresentationModel<Usuario> implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long cdUsuario;
@@ -26,7 +25,6 @@ public class Usuario implements Serializable {
     @Size(min = 11, max = 14)
     @Column(unique = true, nullable = false)
     private String nuDocumento;
-    @Pattern(regexp = "\\(\\d{2}\\) \\d{4,5}-\\d{4}", message = "O número de telefone deve seguir o formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX")
     @Column(nullable = false)
     private String nuTelefone;
     @Column(nullable = false)

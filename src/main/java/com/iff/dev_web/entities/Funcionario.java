@@ -1,14 +1,13 @@
 package com.iff.dev_web.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @DiscriminatorValue("2")
@@ -17,10 +16,11 @@ public class Funcionario extends Usuario implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "cdLojaFilial")
+    @JsonIgnore
     private LojaFilial lojaFilial;
     @OneToMany(mappedBy = "funcionario")
+    @JsonIgnore
     private List<Financiamento> financiamentos;
-    @DecimalMin(value = "1412.0", message = "O salário deve ser maior que R$ 1412,00")
     private BigDecimal salario;
     @NotBlank
     private String cargo;
