@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
@@ -18,6 +19,37 @@ public class VeiculoService {
 
     private static final String PLACA_REGEX = "[A-Z]{3}[0-9][0-9A-Z][0-9]{2}";
     private static final String CHASSI_REGEX = "^[A-Za-z0-9]{3,3}[A-Za-z0-9]{6,6}[A-Za-z0-9]{2,2}[A-Za-z0-9]{6,6}$";
+
+    public Veiculo criarVeiculo(Veiculo veiculo) {
+        validarVeiculo(veiculo);
+        return veiculoRepository.save(veiculo);
+    }
+
+    public Veiculo atualizarVeiculo(Long id, Veiculo veiculo) {
+        Optional<Veiculo> veiculoExistente = veiculoRepository.findById(id);
+        if (veiculoExistente.isEmpty()) {
+            throw new DadosVeiculoInvalidosException("Veículo não encontrado.");
+        }
+
+        validarVeiculo(veiculo);
+        veiculo.setCdVeiculo(id);
+        return veiculoRepository.save(veiculo);
+    }
+
+    public void deletarVeiculo(Long id) {
+        if (!veiculoRepository.existsById(id)) {
+            throw new DadosVeiculoInvalidosException("Veículo não encontrado.");
+        }
+        veiculoRepository.deleteById(id);
+    }
+
+    public List<Veiculo> buscarTodosVeiculos() {
+        return veiculoRepository.findAll();
+    }
+
+    public Veiculo buscarVeiculosPorId(Long id) {
+        return veiculoRepository.findById(id).orElseThrow(() -> new DadosVeiculoInvalidosException("Veículo não encontrado."));
+    }
 
     public List<Veiculo> buscarVeiculosPorMarca(String marca) {
         return veiculoRepository.buscarVeiculosPorMarca(marca);
@@ -35,15 +67,27 @@ public class VeiculoService {
         return veiculoRepository.buscarVeiculosPorValor(valorMax);
     }
 
-    private void validarPlaca(String placa) {
-        if (placa == null || !Pattern.matches(PLACA_REGEX, placa)) {
-            throw new DadosVeiculoInvalidosException("A placa deve estar no padrão ABC1234 ou Mercosul");
+    private void validarVeiculo(Veiculo veiculo) {
+        if (!veiculo.getPlaca().matches(PLACA_REGEX)) {
+            throw new DadosVeiculoInvalidosException("A placa deve estar no padrão ABC1234 ou Mercosul.");
         }
+        if (!veiculo.getChassi().matches(CHASSI_REGEX)) {
+            throw new DadosVeiculoInvalidosException("Chassi inválido.");
+        }
+
+        validarPlacaEChassiUnicos(veiculo);
     }
 
-    private void validarChassi(String chassi) {
-        if (chassi == null || !Pattern.matches(CHASSI_REGEX, chassi)) {
-            throw new DadosVeiculoInvalidosException("Chassi inválido");
+    private void validarPlacaEChassiUnicos(Veiculo veiculo) {
+        Optional<Veiculo> veiculoExistentePorPlaca = veiculoRepository.findByPlaca(veiculo.getPlaca());
+        Optional<Veiculo> veiculoExistentePorChassi = veiculoRepository.findByChassi(veiculo.getChassi());
+
+        if (veiculoExistentePorPlaca.isPresent()) {
+            throw new DadosVeiculoInvalidosException("Placa já existente na base de dados: " + veiculo.getPlaca());
+        }
+
+        if (veiculoExistentePorChassi.isPresent()) {
+            throw new DadosVeiculoInvalidosException("Chassi já existente na base de dados: " + veiculo.getChassi());
         }
     }
 }

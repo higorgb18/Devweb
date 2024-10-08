@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
 
@@ -21,4 +22,8 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
 
     @Query("SELECT v FROM Veiculo v WHERE v.valor = :valorMax")
     List<Veiculo> buscarVeiculosPorValor(@Param("valorMax") BigDecimal valorMax);
+
+    Optional<Veiculo> findByPlaca(String placa);
+
+    Optional<Veiculo> findByChassi(String chassi);
 }

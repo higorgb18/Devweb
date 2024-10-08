@@ -1,5 +1,6 @@
 package com.iff.dev_web.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.hateoas.RepresentationModel;
@@ -18,14 +19,17 @@ public class Financiamento extends RepresentationModel<Financiamento> implements
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cdVeiculo", referencedColumnName = "cdVeiculo")
+    @JsonIgnore
     private Veiculo veiculo;
 
     @ManyToOne
     @JoinColumn(name = "cdCliente", referencedColumnName = "cdUsuario")
+    @JsonIgnore
     private Cliente cliente;
 
     @ManyToOne
     @JoinColumn(name = "cdFuncionario", referencedColumnName = "cdUsuario")
+    @JsonIgnore
     private Funcionario funcionario;
 
     @Enumerated(EnumType.STRING)

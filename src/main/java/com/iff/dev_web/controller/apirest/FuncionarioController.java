@@ -21,6 +21,66 @@ public class FuncionarioController {
     @Autowired
     private FuncionarioService funcionarioService;
 
+    @Operation(summary = "Criar um novo funcionário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Funcionário criado com sucesso",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Funcionario.class)) }),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content)
+    })
+    @PostMapping
+    public Funcionario criarFuncionario(@RequestBody Funcionario funcionario) {
+        return funcionarioService.criarFuncionario(funcionario);
+    }
+
+    @Operation(summary = "Atualizar um funcionário existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Funcionário atualizado com sucesso",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Funcionario.class)) }),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Funcionário não encontrado",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content)
+    })
+    @PutMapping("/{id}")
+    public Funcionario atualizarFuncionario(@PathVariable Long id, @RequestBody Funcionario funcionario) {
+        return funcionarioService.atualizarFuncionario(id, funcionario);
+    }
+
+    @Operation(summary = "Excluir um funcionário por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Funcionário excluído com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Funcionário não encontrado",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content)
+    })
+    @DeleteMapping("/{id}")
+    public void excluirFuncionario(@PathVariable Long id) {
+        funcionarioService.excluirFuncionario(id);
+    }
+
+    @Operation(summary = "Buscar todos os funcionários")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Funcionários encontrados com sucesso",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Funcionario.class)) }),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content)
+    })
+    @GetMapping
+    public List<Funcionario> buscarTodosFuncionarios() {
+        return funcionarioService.buscarTodosFuncionarios();
+    }
+
     @Operation(summary = "Buscar funcionários por cargo")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Funcionários encontrados com sucesso",

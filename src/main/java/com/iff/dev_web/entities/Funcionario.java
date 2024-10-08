@@ -16,6 +16,7 @@ public class Funcionario extends Usuario implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "cdLojaFilial")
+    @JsonIgnore
     private LojaFilial lojaFilial;
     @OneToMany(mappedBy = "funcionario")
     @JsonIgnore

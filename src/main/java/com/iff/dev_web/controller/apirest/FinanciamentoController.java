@@ -51,4 +51,87 @@ public class FinanciamentoController {
                                 .buscarFinanciamentoPorStatus(status)).withSelfRel())
         ).collect(Collectors.toList());
     }
+
+    @Operation(summary = "Buscar financiamento por número de contrato")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Financiamento encontrado com sucesso",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Financiamento.class)) }),
+            @ApiResponse(responseCode = "404", description = "Financiamento não encontrado",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content)
+    })
+    @GetMapping("/{nuContrato}")
+    public Financiamento buscarFinanciamentoPorNuContrato(@PathVariable String nuContrato) {
+        return financiamentoService.buscarFinanciamentoPorNuContrato(nuContrato);
+    }
+
+
+    @Operation(summary = "Buscar todos os financiamentos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Financiamentos encontrados com sucesso",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Financiamento.class)) }),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content)
+    })
+    @GetMapping
+    public List<Financiamento> buscarTodosFinanciamentos() {
+        List<Financiamento> financiamentos = financiamentoService.buscarTodosFinanciamentos();
+
+        return financiamentos.stream().map(financiamento ->
+                financiamento.add(WebMvcLinkBuilder.linkTo(
+                                WebMvcLinkBuilder.methodOn(FinanciamentoController.class)
+                                        .buscarTodosFinanciamentos())
+                        .withSelfRel())
+        ).collect(Collectors.toList());
+    }
+
+    @Operation(summary = "Criar um novo financiamento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Financiamento criado com sucesso",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Financiamento.class)) }),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content)
+    })
+    @PostMapping
+    public Financiamento criarFinanciamento(@RequestBody Financiamento novoFinanciamento) {
+        return financiamentoService.salvarFinanciamento(novoFinanciamento);
+    }
+
+    @Operation(summary = "Atualizar financiamento existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Financiamento atualizado com sucesso",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Financiamento.class)) }),
+            @ApiResponse(responseCode = "404", description = "Financiamento não encontrado",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content)
+    })
+    @PutMapping("/{nuContrato}")
+    public Financiamento atualizarFinanciamento(
+            @PathVariable String nuContrato,
+            @RequestBody Financiamento financiamentoAtualizado) {
+        return financiamentoService.atualizarFinanciamento(nuContrato, financiamentoAtualizado);
+    }
+
+    @Operation(summary = "Deletar financiamento existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Financiamento deletado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Financiamento não encontrado",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content)
+    })
+    @DeleteMapping("/{nuContrato}")
+    public void excluirFinanciamentoPorNuContrato(@PathVariable String nuContrato) {
+        financiamentoService.excluirFinanciamentoPorNuContrato(nuContrato);
+    }
 }

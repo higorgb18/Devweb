@@ -24,6 +24,75 @@ public class LojaFilialController {
     @Autowired
     private LojaFilialService lojaFilialService;
 
+    @Operation(summary = "Criar uma nova loja")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Loja criada com sucesso",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = LojaFilial.class)) }),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content)
+    })
+    @PostMapping
+    public LojaFilial criarLoja(@RequestBody LojaFilial lojaFilial) {
+        return lojaFilialService.criarLoja(lojaFilial);
+    }
+
+    @Operation(summary = "Atualizar loja por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Loja atualizada com sucesso",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = LojaFilial.class)) }),
+            @ApiResponse(responseCode = "404", description = "Loja não encontrada",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content)
+    })
+    @PutMapping("/{id}")
+    public LojaFilial atualizarLoja(
+            @Parameter(description = "ID da loja a ser atualizada")
+            @PathVariable Long id,
+            @RequestBody LojaFilial lojaFilial) {
+        return lojaFilialService.atualizarLoja(id, lojaFilial);
+    }
+
+    @Operation(summary = "Deletar loja por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Loja deletada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Loja não encontrada",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content)
+    })
+    @DeleteMapping("/{id}")
+    public void deletarLoja(
+            @Parameter(description = "ID da loja a ser deletada")
+            @PathVariable Long id) {
+        lojaFilialService.deletarLoja(id);
+    }
+
+    @Operation(summary = "Buscar todas as lojas")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lojas encontradas com sucesso",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = LojaFilial.class)) }),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor",
+                    content = @Content)
+    })
+    @GetMapping
+    public List<LojaFilial> buscarTodasLojas() {
+        List<LojaFilial> lojas = lojaFilialService.buscarTodasLojas();
+
+        return lojas.stream().map(loja -> {
+            loja.add(WebMvcLinkBuilder.linkTo(methodOn(LojaFilialController.class)
+                    .buscarTodasLojas()).withSelfRel());
+            return loja;
+        }).collect(Collectors.toList());
+    }
+
     @Operation(summary = "Buscar loja por nome")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loja encontrada com sucesso",

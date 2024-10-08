@@ -14,6 +14,38 @@ public class LojaFilialService {
     @Autowired
     private LojaFilialRepository lojaFilialRepository;
 
+    public LojaFilial criarLoja(LojaFilial lojaFilial) {
+        validarNome(lojaFilial.getNome());
+        validarEndereco(lojaFilial.getEndereco());
+        validarTelefone(lojaFilial.getNuTelefone());
+        return lojaFilialRepository.save(lojaFilial);
+    }
+
+    public LojaFilial atualizarLoja(Long id, LojaFilial lojaFilialAtualizada) {
+        LojaFilial lojaFilial = lojaFilialRepository.findById(id)
+                .orElseThrow(() -> new DadosLojaFilialInvalidosException("Loja com ID " + id + " não encontrada."));
+
+        validarNome(lojaFilialAtualizada.getNome());
+        validarEndereco(lojaFilialAtualizada.getEndereco());
+        validarTelefone(lojaFilialAtualizada.getNuTelefone());
+
+        lojaFilial.setNome(lojaFilialAtualizada.getNome());
+        lojaFilial.setEndereco(lojaFilialAtualizada.getEndereco());
+        lojaFilial.setNuTelefone(lojaFilialAtualizada.getNuTelefone());
+
+        return lojaFilialRepository.save(lojaFilial);
+    }
+
+    public void deletarLoja(Long id) {
+        LojaFilial lojaFilial = lojaFilialRepository.findById(id)
+                .orElseThrow(() -> new DadosLojaFilialInvalidosException("Loja com ID " + id + " não encontrada."));
+        lojaFilialRepository.delete(lojaFilial);
+    }
+
+    public List<LojaFilial> buscarTodasLojas() {
+        return lojaFilialRepository.findAll();
+    }
+
     public List<LojaFilial> buscarLojaPorNome(String nome) {
         validarNome(nome);
         return lojaFilialRepository.buscarLojaPorNome(nome);

@@ -15,6 +15,40 @@ public class FuncionarioService {
     @Autowired
     private FuncionarioRepository funcionarioRepository;
 
+    public Funcionario criarFuncionario(Funcionario funcionario) {
+        validarFuncionario(funcionario);
+        return funcionarioRepository.save(funcionario);
+    }
+
+    public Funcionario atualizarFuncionario(Long id, Funcionario funcionario) {
+        Funcionario funcionarioExistente = funcionarioRepository.findById(id)
+                .orElseThrow(() -> new DadosFuncionarioInvalidosException("Funcionário não encontrado com o ID: " + id));
+        atualizarDadosFuncionario(funcionarioExistente, funcionario);
+        return funcionarioRepository.save(funcionarioExistente);
+    }
+
+    public void excluirFuncionario(Long id) {
+        Funcionario funcionario = funcionarioRepository.findById(id)
+                .orElseThrow(() -> new DadosFuncionarioInvalidosException("Funcionário não encontrado com o ID: " + id));
+        funcionarioRepository.delete(funcionario);
+    }
+
+    private void atualizarDadosFuncionario(Funcionario funcionarioExistente, Funcionario novoFuncionario) {
+        funcionarioExistente.setUsuario(novoFuncionario.getUsuario());
+        funcionarioExistente.setEmail(novoFuncionario.getEmail());
+        funcionarioExistente.setNuDocumento(novoFuncionario.getNuDocumento());
+        funcionarioExistente.setNuTelefone(novoFuncionario.getNuTelefone());
+        funcionarioExistente.setEndereco(novoFuncionario.getEndereco());
+        funcionarioExistente.setDataNascimento(novoFuncionario.getDataNascimento());
+        funcionarioExistente.setSalario(novoFuncionario.getSalario());
+        funcionarioExistente.setCargo(novoFuncionario.getCargo());
+        funcionarioExistente.setLojaFilial(novoFuncionario.getLojaFilial());
+    }
+
+    public List<Funcionario> buscarTodosFuncionarios() {
+        return funcionarioRepository.findAll();
+    }
+
     public List<Funcionario> buscarFuncionariosPorCargo(String cargo) {
         validarCargo(cargo);
         return funcionarioRepository.buscarFuncionarioPorCargo(cargo);
@@ -46,5 +80,10 @@ public class FuncionarioService {
         if (nomeFilial == null || nomeFilial.trim().isEmpty()) {
             throw new DadosFuncionarioInvalidosException("Nome da filial inválido fornecido.");
         }
+    }
+
+    private void validarFuncionario(Funcionario funcionario) {
+        validarCargo(funcionario.getCargo());
+        validarSalario(funcionario.getSalario());
     }
 }
