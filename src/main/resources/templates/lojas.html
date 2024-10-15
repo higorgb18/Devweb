@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Lista de Lojas</title>
+</head>
+<body>
+<h1>Lista de Lojas</h1>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nome</th>
+    <th>Endereço</th>
+    <th>Telefone</th>
+    <th>Ações</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="loja : ${lojas}">
+    <td th:text="${loja.cdLojaFilial}"></td>
+    <td th:text="${loja.nome}"></td>
+    <td th:text="${loja.endereco}"></td>
+    <td th:text="${loja.nuTelefone}"></td>
+    <td>
+      <a th:href="@{/lojas/edit/{id}(id=${loja.cdLojaFilial})}">Editar</a> |
+      <a th:href="@{/lojas/delete/{id}(id=${loja.cdLojaFilial})}">Deletar</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<a href="/lojas/new">Criar Nova Loja</a>
+</body>
+</html>
