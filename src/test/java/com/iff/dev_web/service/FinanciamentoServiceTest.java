@@ -35,9 +35,9 @@ public class FinanciamentoServiceTest {
 
     @Test
     public void testBuscarFinanciamentoPorStatus() {
-        CdStatusEnum status = CdStatusEnum.Vigente;
+        CdStatusEnum status = CdStatusEnum.VIGENTE;
         List<Financiamento> mockFinanciamentos = new ArrayList<>();
-        mockFinanciamentos.add(new Financiamento("F1234567890", new Veiculo(), new Cliente(), new Funcionario(), status,
+        mockFinanciamentos.add(new Financiamento(1L, new Veiculo(), new Cliente(), new Funcionario(), status,
                 new BigDecimal(30000), new BigDecimal(2.5), 36, LocalDateTime.now(), LocalDateTime.now().plusYears(3), LocalDateTime.now()));
 
         when(financiamentoRepository.buscarFinanciamentoPorStatus(status)).thenReturn(mockFinanciamentos);

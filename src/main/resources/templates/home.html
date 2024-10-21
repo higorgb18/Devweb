@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="pt=br">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Financar - Home</title>
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/global.css}">
 </head>
-    <body>
-        <div class="homePage">
-            <h1>Financar</h1>
-            <p>Aguarde - em construção</p>
-            <a href="https://google.com">Voltar</a>
-        </div>
-    </body>
+<body>
+<div class="homePage">
+    <h1>Financar</h1>
+    <p>Bem-vindo à plataforma de financiamento</p>
+    <a class="btnEntrarHome" href="/financiamentos">Entrar</a>
+    <a class="btnCadastrarHome" href="/funcionarios/cadastrar">Cadastrar Funcionário</a>
+    <a class="btnCadastrarHome" href="/clientes/cadastrar">Cadastrar Cliente</a>
+</div>
+</body>
 </html>
-

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Editar Financiamento</title>
+  <link th:href="@{/css/editarFinanciamento.css}" rel="stylesheet" />
+  <link th:href="@{/css/header.css}" rel="stylesheet"  />
+  <link th:href="@{/css/global.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="editarFinanciamentoWrapper">
+  <div th:replace="/fragments/header :: header"></div>
+
+  <h2>Editar Financiamento</h2>
+  <form class="editFinancingForm" th:action="@{/financiamentos/editar}" method="post">
+    <input type="hidden" name="cliente.cdUsuario" th:value="${financiamento.cliente.cdUsuario}" />
+    <input type="hidden" name="nuContrato" th:value="${financiamento.nuContrato}" />
+    <input type="hidden" name="veiculo.cdVeiculo" th:value="${financiamento.veiculo.cdVeiculo}" />
+
+    <section class="financingSection">
+      <h3 th:text="'Dados do Financiamento - ' +  ${financiamento.nuContrato}"></h3>
+      <div class="inputContainer">
+        <label>Status:</label>
+        <select name="cdStatus" th:value="${financiamento.cdStatus}">
+          <option th:value="ANALISE">Análise</option>
+          <option th:value="VIGENTE">Vigente</option>
+          <option th:value="ENCERRADO">Encerrado</option>
+        </select>
+      </div>
+      <div class="inputContainer">
+        <label>Valor do Financiamento:</label>
+        <input type="number" step="0.01" name="valorFinanciamento" th:value="${financiamento.valorFinanciamento}" />
+      </div>
+      <div class="inputContainer">
+        <label>Taxa de Juros (% a.a.):</label>
+        <input type="number" step="0.01" name="taxaJuros" th:value="${financiamento.taxaJuros}" />
+      </div>
+      <div class="inputContainer">
+        <label>Parcelas:</label>
+        <input type="number" name="qtParcelas" th:value="${financiamento.qtParcelas}" />
+      </div>
+    </section>
+
+    <section class="vehicleSection">
+      <h3>Dados do Veículo</h3>
+      <div class="inputContainer">
+        <label>Tipo:</label>
+        <input type="text" name="veiculo.cdTipoVeiculo" th:value="${financiamento.veiculo.cdTipoVeiculo}" />
+      </div>
+      <div class="inputContainer">
+        <label>Marca:</label>
+        <input type="text" name="veiculo.marca" th:value="${financiamento.veiculo.marca}" />
+      </div>
+      <div class="inputContainer">
+        <label>Modelo:</label>
+        <input type="text" name="veiculo.modelo" th:value="${financiamento.veiculo.modelo}" />
+      </div>
+      <div class="inputContainer">
+        <label>Ano:</label>
+        <input type="number" name="veiculo.anoModelo" th:value="${financiamento.veiculo.anoModelo}" />
+      </div>
+      <div class="inputContainer">
+        <label>Código tabela Fipe:</label>
+        <input type="number" name="veiculo.cdTabelaFipe" th:value="${financiamento.veiculo.cdTabelaFipe}" />
+      </div>
+      <div class="inputContainer">
+        <label>Placa:</label>
+        <input type="text" name="veiculo.placa" th:value="${financiamento.veiculo.placa}" />
+      </div>
+      <div class="inputContainer">
+        <label>Combustível:</label>
+        <select name="veiculo.tipoCombustivel" th:value="${financiamento.veiculo.tipoCombustivel}" required>
+          <option value="GASOLINA">Gasolina</option>
+          <option value="ETANOL">Etanol</option>
+          <option value="GNV">GNV</option>
+          <option value="DIESEL">Diesel</option>
+        </select>
+      </div>
+      <div class="inputContainer">
+        <label>Chassi:</label>
+        <input type="text" name="veiculo.chassi" th:value="${financiamento.veiculo.chassi}" />
+      </div>
+      <div class="inputContainer">
+        <label>Valor do Veículo:</label>
+        <input type="number" step="0.01" name="veiculo.valor" th:value="${financiamento.veiculo.valor}" />
+      </div>
+      <div class="inputContainer">
+        <label>Quilometragem:</label>
+        <input type="number" name="veiculo.quilometragem" th:value="${financiamento.veiculo.quilometragem}" />
+      </div>
+    </section>
+
+    <button type="submit">Salvar Alterações</button>
+  </form>
+</div>
+</body>
+</html>

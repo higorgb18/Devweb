@@ -1,4 +1,11 @@
+logging:
+  level:
+    org.springframework: DEBUG
+    com.iff.dev_web: DEBUG
 spring:
+  web:
+    resources:
+      static-locations: classpath:/static/
   datasource:
     url: jdbc:h2:file:./data/exemplo
     driverClassName: org.h2.Driver

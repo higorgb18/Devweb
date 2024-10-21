@@ -24,13 +24,13 @@ h1 {
 }
 
 p {
-margin: 0;
+    margin: 0;
 }
 
 a {
     display: block;
     padding: 1rem 2rem;
-    margin-top: 4rem;
+    margin-top: 1rem;
     border-radius: 3px;
     border-style: none;
     text-decoration: none;
@@ -44,3 +44,13 @@ a:hover {
      cursor: pointer;
      transition: all 0.2s ease;
  }
+
+.btnEntrarHome {
+    color: #1a1b26;
+    background-color: #d7b23a;
+}
+
+.btnEntrarHome:hover {
+    background-color: #d5b255;
+}
+

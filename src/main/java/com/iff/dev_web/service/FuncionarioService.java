@@ -12,8 +12,14 @@ import java.util.List;
 @Service
 public class FuncionarioService {
 
+    private static final String TELEFONE_REGEX = "^\\d{10,11}$";
+    private static final String CPF_REGEX = "\\d{11}";
+
     @Autowired
     private FuncionarioRepository funcionarioRepository;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     public Funcionario criarFuncionario(Funcionario funcionario) {
         validarFuncionario(funcionario);
@@ -72,7 +78,7 @@ public class FuncionarioService {
 
     private void validarSalario(BigDecimal salario) {
         if (salario == null || salario.compareTo(new BigDecimal("1412.0")) < 0) {
-            throw new DadosFuncionarioInvalidosException("Salário inválido fornecido.");
+            throw new DadosFuncionarioInvalidosException("Salário abaixo do permitido.");
         }
     }
 
@@ -82,8 +88,24 @@ public class FuncionarioService {
         }
     }
 
+    public void validarTelefone(String telefone) {
+        if (!telefone.matches(TELEFONE_REGEX)) {
+            throw new DadosFuncionarioInvalidosException("Telefone inválido. O campo deve ter 10 ou 11 dígitos.");
+        }
+    }
+
+    public void validarCPF(String cpf) {
+        if (!cpf.matches(CPF_REGEX)) {
+            throw new DadosFuncionarioInvalidosException("CPF inválido. O CPF deve conter 11 dígitos.");
+        }
+    }
+
     private void validarFuncionario(Funcionario funcionario) {
+        usuarioService.validarDocumentoEEmailUnicos(funcionario);
+        usuarioService.validarDataNascimento(funcionario.getDataNascimento());
         validarCargo(funcionario.getCargo());
         validarSalario(funcionario.getSalario());
+        validarTelefone(funcionario.getNuTelefone());
+        validarCPF(funcionario.getNuDocumento());
     }
 }

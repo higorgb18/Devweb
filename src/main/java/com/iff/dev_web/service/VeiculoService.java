@@ -67,27 +67,36 @@ public class VeiculoService {
         return veiculoRepository.buscarVeiculosPorValor(valorMax);
     }
 
-    private void validarVeiculo(Veiculo veiculo) {
+    public void validarVeiculo(Veiculo veiculo) {
         if (!veiculo.getPlaca().matches(PLACA_REGEX)) {
             throw new DadosVeiculoInvalidosException("A placa deve estar no padrão ABC1234 ou Mercosul.");
         }
         if (!veiculo.getChassi().matches(CHASSI_REGEX)) {
-            throw new DadosVeiculoInvalidosException("Chassi inválido.");
+            throw new DadosVeiculoInvalidosException("Chassi inválido. Deve possuir 17 caracteres com apenas letras e números");
         }
 
         validarPlacaEChassiUnicos(veiculo);
+        validarAnoVeiculo(veiculo.getAnoModelo());
     }
 
     private void validarPlacaEChassiUnicos(Veiculo veiculo) {
         Optional<Veiculo> veiculoExistentePorPlaca = veiculoRepository.findByPlaca(veiculo.getPlaca());
         Optional<Veiculo> veiculoExistentePorChassi = veiculoRepository.findByChassi(veiculo.getChassi());
 
-        if (veiculoExistentePorPlaca.isPresent()) {
+        if (veiculoExistentePorPlaca.isPresent() && !veiculoExistentePorPlaca.get().getCdVeiculo().equals(veiculo.getCdVeiculo())) {
             throw new DadosVeiculoInvalidosException("Placa já existente na base de dados: " + veiculo.getPlaca());
         }
 
-        if (veiculoExistentePorChassi.isPresent()) {
+        if (veiculoExistentePorChassi.isPresent() && !veiculoExistentePorChassi.get().getCdVeiculo().equals(veiculo.getCdVeiculo())) {
             throw new DadosVeiculoInvalidosException("Chassi já existente na base de dados: " + veiculo.getChassi());
+        }
+    }
+
+
+    private void validarAnoVeiculo(Integer anoModelo) {
+        int anoAtual = java.time.Year.now().getValue();
+        if (anoModelo < 2012 || anoModelo > anoAtual) {
+            throw new DadosVeiculoInvalidosException("O ano do veículo deve estar entre 2012 e " + anoAtual);
         }
     }
 }

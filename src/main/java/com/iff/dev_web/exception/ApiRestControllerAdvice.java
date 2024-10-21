@@ -1,41 +1,53 @@
 package com.iff.dev_web.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
-@RestControllerAdvice
-public class ApiRestControllerAdvice extends ResponseEntityExceptionHandler {
+@ControllerAdvice
+public class ApiRestControllerAdvice {
 
     @ExceptionHandler(DadosUsuarioInvalidosException.class)
-    public ProblemDetail handleDadosUsuarioInvalidosException(DadosUsuarioInvalidosException e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+    public ModelAndView handleDadosUsuarioInvalidosException(DadosUsuarioInvalidosException e) {
+        return getErrorModelAndView(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(DadosLojaFilialInvalidosException.class)
-    public ProblemDetail handleDadosLojaFilialInvalidosException(DadosLojaFilialInvalidosException e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+    public ModelAndView handleDadosLojaFilialInvalidosException(DadosLojaFilialInvalidosException e) {
+        return getErrorModelAndView(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(DadosVeiculoInvalidosException.class)
-    public ProblemDetail handleDadosVeiculoInvalidosException(DadosVeiculoInvalidosException e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+    public ModelAndView handleDadosVeiculoInvalidosException(DadosVeiculoInvalidosException e) {
+        return getErrorModelAndView(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(DadosFuncionarioInvalidosException.class)
-    public ProblemDetail handleDadosFuncionarioInvalidosException(DadosFuncionarioInvalidosException e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+    public ModelAndView handleDadosFuncionarioInvalidosException(DadosFuncionarioInvalidosException e) {
+        return getErrorModelAndView(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(DadosClienteInvalidosException.class)
-    public ProblemDetail handleDadosClienteInvalidosException(DadosClienteInvalidosException e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+    public ModelAndView handleDadosClienteInvalidosException(DadosClienteInvalidosException e) {
+        return getErrorModelAndView(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(DadosFinanciamentoInvalidosException.class)
+    public ModelAndView handleDadosFinanciamentoInvalidosException(DadosFinanciamentoInvalidosException e) {
+        return getErrorModelAndView(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
-    public ProblemDetail handleGenericException(Exception e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno no servidor");
+    public ModelAndView handleGenericException(Exception e) {
+        return getErrorModelAndView(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno no servidor");
+    }
+
+    private ModelAndView getErrorModelAndView(HttpStatus status, String errorMessage) {
+        ModelAndView modelAndView = new ModelAndView("paginaErro");
+        modelAndView.addObject("status", status.value());
+        modelAndView.addObject("error", status.getReasonPhrase());
+        modelAndView.addObject("message", errorMessage);
+        return modelAndView;
     }
 }

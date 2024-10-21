@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Cadastrar Financiamento</title>
+  <link th:href="@{/css/cadastrarFinanciamento.css}" rel="stylesheet" />
+  <link th:href="@{/css/header.css}" rel="stylesheet"  />
+  <link th:href="@{/css/global.css}" rel="stylesheet" />
+
+</head>
+<body>
+
+<div class="formCadastroFinanciamentoWrapper">
+  <div th:replace="/fragments/header :: header"></div>
+
+  <h2>Cadastrar Financiamento</h2>
+
+  <form class="formCadastro" th:action="@{/financiamentos}" method="post" th:object="${financiamento}">
+
+    <section class="dadosFinanciamento">
+      <div class="inputContainer">
+        <label for="cliente">Identificador do cliente</label>
+        <input type="number" id="cliente" th:field="*{cliente.cdUsuario}" required />
+      </div>
+      <div class="inputContainer">
+        <label for="taxaJuros">Taxa de Juros a.a. (%)</label>
+        <input type="number" id="taxaJuros" th:field="*{taxaJuros}" required />
+      </div>
+      <div class="inputContainer">
+        <label for="status">Status</label>
+        <select id="status" th:field="*{cdStatus}" required>
+          <option value="">Selecione</option>
+          <option value="ANALISE">Em análise</option>
+          <option value="VIGENTE">Vigente</option>
+          <option value="ENCERRADO">Encerrado</option>
+        </select>
+      </div>
+      <div class="inputContainer">
+        <label for="qtParcelas">Quantidade de Parcelas</label>
+        <input type="number" id="qtParcelas" th:field="*{qtParcelas}" required />
+      </div>
+    </section>
+
+    <section class="dadosVeiculo" th:object="${financiamento.veiculo}">
+      <div class="inputContainer">
+        <label for="tipo">Tipo</label>
+        <select id="tipo" th:field="*{cdTipoVeiculo}" required>
+          <option value="">Selecione</option>
+          <option value="1">Carro</option>
+          <option value="2">Moto</option>
+        </select>
+      </div>
+      <div class="inputContainer">
+        <label for="marca">Marca</label>
+        <input type="text" id="marca" th:field="*{marca}" required />
+      </div>
+      <div class="inputContainer">
+        <label for="modelo">Modelo</label>
+        <input type="text" id="modelo" th:field="*{modelo}" required />
+      </div>
+      <div class="inputContainer">
+        <label for="ano">Ano</label>
+        <input type="number" id="ano" th:field="*{anoModelo}" required />
+      </div>
+      <div class="inputContainer">
+        <label for="cdTabelaFipe">Código tabela Fipe</label>
+        <input type="number" id="cdTabelaFipe" th:field="*{cdTabelaFipe}" required />
+      </div>
+      <div class="inputContainer">
+        <label for="placa">Placa</label>
+        <input type="text" id="placa" th:field="*{placa}" required />
+      </div>
+      <div class="inputContainer">
+        <label for="combustivel">Combustível</label>
+        <select id="combustivel" th:field="*{tipoCombustivel}" required>
+          <option value="">Selecione</option>
+          <option value="GASOLINA">Gasolina</option>
+          <option value="ETANOL">Etanol</option>
+          <option value="GNV">GNV</option>
+          <option value="DIESEL">DIESEL</option>
+        </select>
+      </div>
+      <div class="inputContainer">
+        <label for="chassi">Chassi</label>
+        <input type="text" id="chassi" th:field="*{chassi}" required />
+      </div>
+      <div class="inputContainer">
+        <label for="valorVeiculo">Valor</label>
+        <input type="number" id="valorVeiculo" th:field="*{valor}" required />
+      </div>
+      <div class="inputContainer">
+        <label for="quilometragem">Quilometragem</label>
+        <input type="number" id="quilometragem" th:field="*{quilometragem}" required />
+      </div>
+    </section>
+
+    <button type="submit">Cadastrar Financiamento</button>
+  </form>
+</div>
+
+</body>
+</html>

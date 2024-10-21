@@ -1,0 +1,117 @@
+.formCadastroFinanciamentoWrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    background-color: #02020e;
+    color: white;
+}
+
+h2 {
+    margin: 1rem;
+    font-weight: 600;
+    font-size: 36px;
+}
+
+.formCadastro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 75%;
+    padding: 2rem;
+}
+
+.formCadastro section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputContainer label {
+    font-size: 12px;
+    color: #acacac;
+    margin-bottom: 0.5rem;
+}
+
+.inputContainer input,
+.inputContainer select {
+    padding: 2px 0;
+    background-color: transparent;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    border: none;
+    border-bottom: 1.5px solid #333;
+    transition: all 0.2s ease;
+}
+
+.inputContainer input::placeholder {
+    color: #aaa;
+}
+
+.inputContainer input:focus,
+.inputContainer select:focus {
+    border-bottom: 1.5px solid #fff;
+}
+
+.inputContainer select {
+    background-color: #1a1b26;
+    padding: 5px 1px;
+}
+
+.boxValorTotal {
+    display: flex;
+    flex-direction: column;
+    background-color: #1a1b26;
+    padding: 0 5px;
+    border-radius: 3px;
+}
+
+.boxValorTotal h3 {
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    justify-content: center;
+}
+
+button {
+    padding: 1rem 0;
+    width: 50%;
+    margin-top: 2rem;
+    border-radius: 3px;
+    border-style: none;
+    background-color: #1a1b26;
+    color: #d7b23a;
+    font-size: 14px;
+    font-weight: 400;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    background-color: #262837;
+    cursor: pointer;
+}
+
+p {
+    width: 75%;
+    margin: 2rem 0;
+    font-size: 14px;
+    color: #acacac;
+}
+
+p a {
+    color: #d7b23a;
+    text-decoration: none;
+}

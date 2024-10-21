@@ -1,0 +1,96 @@
+.formCadastroWrapper {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    background-color: #02020e;
+    color: white;
+}
+
+.formCadastroWrapper h2 {
+    margin: 1rem;
+    font-weight: 600;
+    font-size: 36px;
+}
+
+.formCadastro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 40%;
+}
+
+.inputWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+}
+
+.inputContainer {
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.inputContainer label {
+    display: block;
+    font-size: 12px;
+    color: #acacac;
+}
+
+.inputContainer input,
+.inputContainer select {
+    width: 100%;
+    padding: 2px 0;
+    background-color: transparent;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    border: none;
+    border-bottom: 1.5px solid #333;
+}
+
+.inputContainer input::placeholder,
+.inputContainer select::placeholder {
+    color: #aaa;
+}
+
+.inputContainer input:focus,
+.inputContainer select:focus {
+    border-bottom: 1.5px solid #fff;
+    transition: all 0.2s ease;
+}
+
+.formCadastro button {
+    padding: 1rem 0;
+    width: 100%;
+    margin: 1rem 0;
+    border-radius: 3px;
+    border-style: none;
+    background-color: #1a1b26;
+    color: #d7b23a;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.formCadastro button:hover {
+    background-color: #262837;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.formCadastro p {
+    width: 75%;
+    margin: 2rem 0;
+    font-size: 14px;
+    color: #acacac;
+}
+
+.formCadastro p a {
+    color: #d7b23a;
+    text-decoration: none;
+}

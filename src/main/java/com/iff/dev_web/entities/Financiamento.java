@@ -15,7 +15,8 @@ public class Financiamento extends RepresentationModel<Financiamento> implements
 
     @Id
     @NotNull
-    private String nuContrato;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long nuContrato;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cdVeiculo", referencedColumnName = "cdVeiculo")
@@ -55,7 +56,7 @@ public class Financiamento extends RepresentationModel<Financiamento> implements
     public Financiamento() {
     }
 
-    public Financiamento(String nuContrato, Veiculo veiculo, Cliente cliente, Funcionario funcionario, CdStatusEnum cdStatus, BigDecimal valorFinanciamento, BigDecimal taxaJuros, Integer qtParcelas, LocalDateTime dtInicioFinanciamento, LocalDateTime dtFimFinanciamento, LocalDateTime dtAtualizacao) {
+    public Financiamento(Long nuContrato, Veiculo veiculo, Cliente cliente, Funcionario funcionario, CdStatusEnum cdStatus, BigDecimal valorFinanciamento, BigDecimal taxaJuros, Integer qtParcelas, LocalDateTime dtInicioFinanciamento, LocalDateTime dtFimFinanciamento, LocalDateTime dtAtualizacao) {
         this.nuContrato = nuContrato;
         this.veiculo = veiculo;
         this.cliente = cliente;
@@ -69,11 +70,11 @@ public class Financiamento extends RepresentationModel<Financiamento> implements
         this.dtAtualizacao = dtAtualizacao;
     }
 
-    public String getNuContrato() {
+    public Long getNuContrato() {
         return nuContrato;
     }
 
-    public void setNuContrato(String nuContrato) {
+    public void setNuContrato(Long nuContrato) {
         this.nuContrato = nuContrato;
     }
 

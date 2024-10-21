@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Erro</title>
+  <link th:href="@{/css/paginaErro.css}" rel="stylesheet" />
+  <link th:href="@{/css/global.css}" rel="stylesheet" />
+
+</head>
+<body>
+<div class="errorPage">
+  <img th:src="@{/images/carro.png}" alt="Erro" />
+
+  <h1>Erro: <span th:text="${error}"></span></h1>
+  <p>Status: <span th:text="${status}"></span></p>
+  <p><span th:text="${message}"></span></p>
+  <button class="btn" onclick="goBack()">Voltar</button>
+</div>
+
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
+</body>
+</html>
