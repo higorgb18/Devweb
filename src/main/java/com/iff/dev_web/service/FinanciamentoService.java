@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class FinanciamentoService {
@@ -17,12 +19,18 @@ public class FinanciamentoService {
     @Autowired
     private FinanciamentoRepository financiamentoRepository;
 
+    @Autowired
+    private VeiculoService veiculoService;
+
+    @Autowired
+    private ClienteService clienteService;
+
     public List<Financiamento> buscarFinanciamentoPorStatus(CdStatusEnum status) {
         validarStatus(status);
         return financiamentoRepository.buscarFinanciamentoPorStatus(status);
     }
 
-    public Financiamento buscarFinanciamentoPorNuContrato(String nuContrato) {
+    public Financiamento buscarFinanciamentoPorNuContrato(Long nuContrato) {
         return financiamentoRepository.findByNuContrato(nuContrato)
                 .orElseThrow(() -> new DadosFinanciamentoInvalidosException("Financiamento não encontrado com o número de contrato: " + nuContrato));
     }
@@ -32,11 +40,18 @@ public class FinanciamentoService {
     }
 
     public Financiamento salvarFinanciamento(Financiamento financiamento) {
+        BigDecimal valorFinanciamento = calcularValorFinanciamento(financiamento.getVeiculo().getValor(), financiamento.getTaxaJuros(), financiamento.getQtParcelas());
+        financiamento.setValorFinanciamento(valorFinanciamento);
+
+        clienteService.buscarClientePorId(financiamento.getCliente().getCdUsuario());
         validarFinanciamento(financiamento);
+        calcularDatasFinanciamento(financiamento);
+        veiculoService.validarVeiculo(financiamento.getVeiculo());
+
         return financiamentoRepository.save(financiamento);
     }
 
-    public Financiamento atualizarFinanciamento(String nuContrato, Financiamento financiamentoAtualizado) {
+    public Financiamento atualizarFinanciamento(Long nuContrato, Financiamento financiamentoAtualizado) {
         Financiamento financiamentoExistente = financiamentoRepository.findById(nuContrato)
                 .orElseThrow(() -> new DadosFinanciamentoInvalidosException("Financiamento não encontrado para o contrato: " + nuContrato));
 
@@ -51,16 +66,35 @@ public class FinanciamentoService {
         return financiamentoRepository.save(financiamentoExistente);
     }
 
-    public void excluirFinanciamentoPorNuContrato(String nuContrato) {
+    public void excluirFinanciamentoPorNuContrato(Long nuContrato) {
         Financiamento financiamento = buscarFinanciamentoPorNuContrato(nuContrato);
         financiamentoRepository.delete(financiamento);
     }
 
+    public BigDecimal calcularValorFinanciamento(BigDecimal valorVeiculo, BigDecimal taxaJurosAnual, int quantidadeParcelas) {
+        BigDecimal taxaJurosDecimal = taxaJurosAnual.divide(BigDecimal.valueOf(100), 10, RoundingMode.HALF_UP);
+
+        BigDecimal tempoAnos = BigDecimal.valueOf(quantidadeParcelas).divide(BigDecimal.valueOf(12), 10, RoundingMode.HALF_UP);
+
+        BigDecimal montante = valorVeiculo.multiply(
+                BigDecimal.ONE.add(taxaJurosDecimal).pow(tempoAnos.intValue())
+        );
+
+        validarValorFinanciamento(montante);
+
+        return montante.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private void calcularDatasFinanciamento(Financiamento financiamento) {
+        financiamento.setDtInicioFinanciamento(LocalDateTime.now());
+
+        LocalDateTime dataFim = financiamento.getDtInicioFinanciamento().plusMonths(financiamento.getQtParcelas());
+        financiamento.setDtFimFinanciamento(dataFim);
+    }
+
     public void validarFinanciamento(Financiamento financiamento) {
-        validarValorFinanciamento(financiamento.getValorFinanciamento());
         validarTaxaJuros(financiamento.getTaxaJuros());
         validarQuantidadeParcelas(financiamento.getQtParcelas());
-        validarDatas(financiamento.getDtInicioFinanciamento(), financiamento.getDtFimFinanciamento());
     }
 
     private void validarValorFinanciamento(BigDecimal valorFinanciamento) {
@@ -78,12 +112,6 @@ public class FinanciamentoService {
     private void validarQuantidadeParcelas(Integer qtParcelas) {
         if (qtParcelas == null || qtParcelas <= 0) {
             throw new DadosFinanciamentoInvalidosException("Quantidade de parcelas inválida fornecida");
-        }
-    }
-
-    private void validarDatas(LocalDateTime dtInicio, LocalDateTime dtFim) {
-        if (dtInicio == null || dtFim == null || dtFim.isBefore(dtInicio)) {
-            throw new DadosFinanciamentoInvalidosException("Datas de início e fim de financiamento inválidas");
         }
     }
 

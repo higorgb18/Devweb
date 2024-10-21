@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Meus Financiamentos Realizados</title>
+  <link th:href="@{/css/financiamentos.css}" rel="stylesheet"/>
+  <link th:href="@{/css/header.css}" rel="stylesheet"  />
+  <link th:href="@{/css/global.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="financiamentosWrapper">
+  <div th:replace="/fragments/header :: header"></div>
+
+  <h2>Meus Financiamentos</h2>
+
+  <div class="financiamentosGrid">
+    <a class="financiamentoCard" th:each="financiamento : ${financiamentos}"
+       th:href="@{/financiamentos/{nuContrato}(nuContrato=${financiamento.nuContrato})}">
+
+    <h3 th:text="${financiamento.veiculo.marca} + ' ' + ${financiamento.veiculo.modelo} + ' - ' + ${financiamento.nuContrato}"></h3>
+      <div class="inputContainer">
+        <label>Cliente: </label>
+        <p th:text="${financiamento.cliente.usuario}"></p>
+      </div>
+      <div class="inputContainer">
+        <label>Status: </label>
+        <p th:text="${financiamento.cdStatus}"></p>
+      </div>
+      <div class="inputContainer">
+        <label>Taxa de Juros: </label>
+        <p th:text="${financiamento.taxaJuros} + '% a.a.'"></p>
+      </div>
+      <div class="inputContainer">
+        <label>Parcelas: </label>
+        <p th:text="${financiamento.qtParcelas}"></p>
+      </div>
+      <div class="inputContainer">
+        <label>Valor do Financiamento: </label>
+        <p th:text="'R$ ' + ${financiamento.valorFinanciamento}"></p>
+      </div>
+    </a>
+  </div>
+</div>
+
+</body>
+</html>

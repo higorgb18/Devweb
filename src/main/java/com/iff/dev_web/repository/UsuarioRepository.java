@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
@@ -17,5 +18,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query("SELECT f FROM Funcionario f")
     List<Funcionario> buscarTodosFuncionarios();
+
+    Optional<Usuario> findByNuDocumento(String nuDocumento);
+
+    Optional<Usuario> findByEmail(String email);
 
 }

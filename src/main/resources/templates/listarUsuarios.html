@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Listagem de Usuários</title>
+  <link th:href="@{/css/usuarios.css}" rel="stylesheet"/>
+  <link th:href="@{/css/header.css}" rel="stylesheet"/>
+  <link th:href="@{/css/global.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="usuariosWrapper">
+  <div th:replace="/fragments/header :: header"></div>
+
+  <h2>Listagem de Usuários</h2>
+
+  <div class="usuariosGrid">
+    <a class="usuarioCard" th:each="usuario : ${usuarios}"
+       th:href="@{/usuarios/{id}(id=${usuario.cdUsuario})}">
+
+      <h3 th:text="${usuario.usuario} + ' - ' + (${usuario instanceof T(com.iff.dev_web.entities.Funcionario) ? 'Funcionário' : 'Cliente'})"></h3>
+      <div class="inputContainer">
+        <label>Código identificador: </label>
+        <p th:text="${usuario.cdUsuario}"></p>
+      </div>
+      <div class="inputContainer">
+        <label>E-mail: </label>
+        <p th:text="${usuario.email}"></p>
+      </div>
+      <div class="inputContainer" th:if="${usuario instanceof T(com.iff.dev_web.entities.Funcionario)}">
+        <label>Cargo: </label>
+        <p th:text="${usuario.cargo}"></p>
+      </div>
+      <div class="inputContainer" th:if="${usuario instanceof T(com.iff.dev_web.entities.Cliente)}">
+        <label>Score de Crédito: </label>
+        <p th:text="${usuario.scoreCredito}"></p>
+      </div>
+      <div class="inputContainer">
+        <label>Telefone: </label>
+        <p th:text="${usuario.nuTelefone}"></p>
+      </div>
+      <div class="inputContainer">
+        <label>Endereço: </label>
+        <p th:text="${usuario.endereco}"></p>
+      </div>
+    </a>
+  </div>
+</div>
+
+</body>
+</html>

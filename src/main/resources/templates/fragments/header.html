@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Financar - Header</title>
+</head>
+<body>
+<header class="header">
+  <div class="headerContent">
+    <a href="/" class="headerTitle">Financar</a>
+
+    <nav class="headerNav">
+      <ul>
+        <li><a th:href="@{/usuarios}">Usuários</a></li>
+        <li><a th:href="@{/financiamentos/cadastrar}">Cadastrar Financiamento</a></li>
+        <li><a th:href="@{/financiamentos}">Meus Financiamentos</a></li>
+        <li><a th:href="@{/}">Logout</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+</body>
+</html>

@@ -1,10 +1,10 @@
 package com.iff.dev_web.entities;
 
 public enum CdTipoCombustivelEnum {
-    Gasolina(1),
-    Alcool(2),
-    Gas(3),
-    Diesel(4);
+    GASOLINA(1),
+    ETANOL(2),
+    GNV(3),
+    DIESEL(4);
 
     private final int value;
 

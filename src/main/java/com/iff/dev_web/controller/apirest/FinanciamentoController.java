@@ -63,7 +63,7 @@ public class FinanciamentoController {
                     content = @Content)
     })
     @GetMapping("/{nuContrato}")
-    public Financiamento buscarFinanciamentoPorNuContrato(@PathVariable String nuContrato) {
+    public Financiamento buscarFinanciamentoPorNuContrato(@PathVariable Long nuContrato) {
         return financiamentoService.buscarFinanciamentoPorNuContrato(nuContrato);
     }
 
@@ -117,7 +117,7 @@ public class FinanciamentoController {
     })
     @PutMapping("/{nuContrato}")
     public Financiamento atualizarFinanciamento(
-            @PathVariable String nuContrato,
+            @PathVariable Long nuContrato,
             @RequestBody Financiamento financiamentoAtualizado) {
         return financiamentoService.atualizarFinanciamento(nuContrato, financiamentoAtualizado);
     }
@@ -131,7 +131,7 @@ public class FinanciamentoController {
                     content = @Content)
     })
     @DeleteMapping("/{nuContrato}")
-    public void excluirFinanciamentoPorNuContrato(@PathVariable String nuContrato) {
+    public void excluirFinanciamentoPorNuContrato(@PathVariable Long nuContrato) {
         financiamentoService.excluirFinanciamentoPorNuContrato(nuContrato);
     }
 }

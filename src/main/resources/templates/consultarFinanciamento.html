@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Consultar Financiamento</title>
+  <link th:href="@{/css/consultarFinanciamento.css}" rel="stylesheet" />
+  <link th:href="@{/css/header.css}" rel="stylesheet"  />
+  <link th:href="@{/css/global.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="formWrapper">
+  <div th:replace="/fragments/header :: header"></div>
+
+  <h2>Consultar Financiamento</h2>
+  <div class="consultaFinanciamento">
+    <section class="financiamentoSection">
+      <h3>Dados do Financiamento</h3>
+      <div class="inputGrid">
+        <div class="inputContainer">
+          <label>Número de Contrato: </label>
+          <p th:text="${financiamento.nuContrato}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Cliente: </label>
+          <p th:text="${financiamento.cliente.usuario}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Status: </label>
+          <p th:text="${financiamento.cdStatus}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Valor do Financiamento: </label>
+          <p th:text="'R$ ' + ${financiamento.valorFinanciamento}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Taxa de Juros: </label>
+          <p th:text="${financiamento.taxaJuros} + '%'"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Quantidade de Parcelas: </label>
+          <p th:text="${financiamento.qtParcelas}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Data de Início: </label>
+          <p th:text="${financiamento.dtInicioFinanciamento}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Data de Fim: </label>
+          <p th:text="${financiamento.dtFimFinanciamento}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Data de Atualização: </label>
+          <p th:text="${financiamento.dtAtualizacao}"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="veiculoSection">
+      <h3>Dados do Veículo: </h3>
+      <div class="inputGrid">
+        <div class="inputContainer">
+          <label>Tipo: </label>
+          <p th:text="${financiamento.veiculo.cdTipoVeiculo}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Marca: </label>
+          <p th:text="${financiamento.veiculo.marca}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Modelo: </label>
+          <p th:text="${financiamento.veiculo.modelo}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Ano: </label>
+          <p th:text="${financiamento.veiculo.anoModelo}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Placa: </label>
+          <p th:text="${financiamento.veiculo.placa}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Combustível: </label>
+          <p th:text="${financiamento.veiculo.tipoCombustivel}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Chassi: </label>
+          <p th:text="${financiamento.veiculo.chassi}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Valor: </label>
+          <p th:text="${financiamento.veiculo.valor}"></p>
+        </div>
+        <div class="inputContainer">
+          <label>Quilometragem: </label>
+          <p th:text="${financiamento.veiculo.quilometragem}"></p>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="buttonWrapper">
+    <a href="/financiamentos">Voltar</a>
+    <a th:href="@{/financiamentos/editar/{nuContrato}(nuContrato=${financiamento.nuContrato})}">Editar</a>
+    <form th:action="@{/financiamentos/{id}/excluir(id=${financiamento.nuContrato})}" method="post" onsubmit="return confirm('Tem certeza que deseja excluir este financiamento? A ação é irreversível!');">
+      <button type="submit" class="deleteButton">Excluir</button>
+    </form>
+  </div>
+
+</div>
+</body>
+</html>
